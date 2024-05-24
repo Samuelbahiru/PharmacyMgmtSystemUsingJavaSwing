@@ -4,6 +4,14 @@
  */
 package pams;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author sam
@@ -199,7 +207,61 @@ public class RegisterMedicine extends javax.swing.JFrame {
     }//GEN-LAST:event_nameOfMedicineActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+       
+        // Add the code to insert data into MySQL database                                        
+    
+                                          
+    String name = nameOfMedicine.getText();
+    String initialPrice = jTextField1.getText();
+    String quantity = jTextField2.getText();
+    String sellingPrice = jTextField4.getText();
+
+    String url = "jdbc:mysql://localhost:3307/pharmacy";
+    String username = "root";
+    String password = "password";
+    Connection con = null;
+    PreparedStatement pst = null;
+
+    try {
+        Class.forName("com.mysql.cj.jdbc.Driver");
+        con = DriverManager.getConnection(url, username, password);
+        System.out.println("mysql connected successfully with id " + con);
+    } catch (ClassNotFoundException | SQLException ex) {
+        Logger.getLogger(HomePage.class.getName()).log(Level.SEVERE, null, ex);
+    }
+
+    // Ensure to use the correct column names from your table
+    String sql = "INSERT INTO pharma (nameOfMedicine, initialPrice, selingPrice, quantity) VALUES (?, ?, ?, ?)";
+    try {
+        pst = con.prepareStatement(sql);
+        pst.setString(1, name);
+        pst.setBigDecimal(2, new java.math.BigDecimal(initialPrice));
+        pst.setBigDecimal(3, new java.math.BigDecimal(sellingPrice));
+        pst.setInt(4, Integer.parseInt(quantity));
+        pst.executeUpdate();
+        
+        // Clear all fields after successful insertion
+        nameOfMedicine.setText("");
+        jTextField1.setText("");
+        jTextField2.setText("");
+        jTextField4.setText("");
+       
+        // Display a success alert to the user
+        JOptionPane.showMessageDialog(this, "Medicine added successfully!");
+    } catch (SQLException ex) {
+        Logger.getLogger(RegisterMedicine.class.getName()).log(Level.SEVERE, null, ex);
+    } finally {
+        try {
+            if (pst != null) pst.close();
+            if (con != null) con.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(RegisterMedicine.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+
+   
+            
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
