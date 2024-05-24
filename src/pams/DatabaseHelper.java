@@ -41,4 +41,22 @@ public class DatabaseHelper {
         }
         return data;
     }
+    public boolean deleteMedicineRecord(Object[] rowData) {
+        String url = "jdbc:mysql://localhost:3307/pharmacy";
+        String username = "root";
+        String password = "password";
+        try {
+            Connection con = DriverManager.getConnection(url, username, password);
+            Statement stmt = con.createStatement();
+            String sql = "DELETE FROM pharma WHERE nameOfMedicine = '" + rowData[0] + "'";
+            int deletedRows = stmt.executeUpdate(sql);
+            con.close();
+            return deletedRows > 0; // Return true if at least one row was deleted
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false; // Return false if there was an exception
+        }
+    }
+    
+    
 }

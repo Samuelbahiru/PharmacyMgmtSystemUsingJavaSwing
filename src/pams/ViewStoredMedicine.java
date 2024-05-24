@@ -324,9 +324,17 @@ class ButtonEditor extends DefaultCellEditor {
         DefaultTableModel model = (DefaultTableModel) ViewStoredMedicine.jTable1.getModel();
         Object[] rowData = getRowDataFromTableModel(model, selectedRow);
         // Perform delete operation in the database using rowData
-        System.out.println("Delete clicked for row: " + selectedRow);
-        model.removeRow(selectedRow);
+        DatabaseHelper dbHelper = new DatabaseHelper();
+        boolean deleted = dbHelper.deleteMedicineRecord(rowData); // Assuming deleteMedicineRecord method is implemented in DatabaseHelper class
+        if (deleted) {
+            System.out.println("Delete clicked for row: " + selectedRow);
+            model.removeRow(selectedRow);
+        } else {
+            System.out.println("Failed to delete record from database.");
+        }
     }
+    
+    
 
     private Object[] getRowDataFromTableModel(DefaultTableModel model, int row) {
         Object[] rowData = new Object[model.getColumnCount()];
