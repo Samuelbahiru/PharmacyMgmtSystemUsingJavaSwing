@@ -64,6 +64,11 @@ public class HomePage extends javax.swing.JFrame {
 
         createNewItem.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         createNewItem.setText("View Stored Medicine");
+        createNewItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                createNewItemActionPerformed(evt);
+            }
+        });
 
         viewStoredMedicine.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         viewStoredMedicine.setText("Add New Medicine");
@@ -121,6 +126,13 @@ public class HomePage extends javax.swing.JFrame {
         
         
     }//GEN-LAST:event_viewStoredMedicineActionPerformed
+
+    private void createNewItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createNewItemActionPerformed
+        this.hide();
+        ViewStoredMedicine obj = new ViewStoredMedicine();
+        obj.show();
+                
+    }//GEN-LAST:event_createNewItemActionPerformed
 
     /**
      * @param args the command line arguments
