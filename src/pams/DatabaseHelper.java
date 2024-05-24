@@ -57,6 +57,23 @@ public class DatabaseHelper {
             return false; // Return false if there was an exception
         }
     }
+    public boolean updateMedicineRecord(Object[] rowData) {
+        String url = "jdbc:mysql://localhost:3307/pharmacy";
+        String username = "root";
+        String password = "password";
+        try {
+            Connection con = DriverManager.getConnection(url, username, password);
+            Statement stmt = con.createStatement();
+            String sql = "UPDATE pharma SET quantity = " + rowData[1] + ", initialPrice = " + rowData[2] + ", selingPrice = " + rowData[3] + " WHERE nameOfMedicine = '" + rowData[0] + "'";
+            int updatedRows = stmt.executeUpdate(sql);
+            con.close();
+            return updatedRows > 0; // Return true if at least one row was updated
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false; // Return false if there was an exception
+        }
+    }
+    
     
     
 }

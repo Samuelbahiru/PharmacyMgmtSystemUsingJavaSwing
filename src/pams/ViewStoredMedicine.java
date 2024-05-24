@@ -40,7 +40,7 @@ public class ViewStoredMedicine extends javax.swing.JFrame {
     
         jTable1.setModel(model);
         jTable1.getColumn("Update").setCellRenderer(new ButtonRenderer());
-        jTable1.getColumn("Update").setCellEditor(new ButtonEditor(new JCheckBox(), "Update"));
+        jTable1.getColumn("Update").setCellEditor(new ButtonEditor(new JCheckBox(), "Updated"));
         jTable1.getColumn("Delete").setCellRenderer(new ButtonRenderer());
         jTable1.getColumn("Delete").setCellEditor(new ButtonEditor(new JCheckBox(), "Delete"));
     }
@@ -316,9 +316,17 @@ class ButtonEditor extends DefaultCellEditor {
     private void updateRecord(int selectedRow) {
         DefaultTableModel model = (DefaultTableModel) ViewStoredMedicine.jTable1.getModel();
         Object[] rowData = getRowDataFromTableModel(model, selectedRow);
-        // Perform update operation in the database using rowData
-        System.out.println("Update clicked for row: " + selectedRow);
+        
+        DatabaseHelper dbHelper = new DatabaseHelper();
+        boolean updated = dbHelper.updateMedicineRecord(rowData);
+        
+        if (updated) {
+            System.out.println("Record updated successfully for row: " + selectedRow);
+        } else {
+            System.out.println("Failed to update record for row: " + selectedRow);
+        }
     }
+    
 
     private void deleteRecord(int selectedRow) {
         DefaultTableModel model = (DefaultTableModel) ViewStoredMedicine.jTable1.getModel();
