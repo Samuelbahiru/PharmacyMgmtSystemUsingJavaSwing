@@ -291,14 +291,13 @@ class ButtonEditor extends DefaultCellEditor {
 
     public Object getCellEditorValue() {
         if (isPushed) {
-           
             int selectedRow = ViewStoredMedicine.jTable1.getSelectedRow();
             if (label.equals("Update")) {
                 // Perform update operation using the data from the selected row
-                System.out.println("Update clicked for row: " + selectedRow);
+                updateRecord(selectedRow);
             } else if (label.equals("Delete")) {
                 // Perform delete operation using the data from the selected row
-                System.out.println("Delete clicked for row: " + selectedRow);
+                deleteRecord(selectedRow);
             }
         }
         isPushed = false;
@@ -313,5 +312,29 @@ class ButtonEditor extends DefaultCellEditor {
     protected void fireEditingStopped() {
         super.fireEditingStopped();
     }
+
+    private void updateRecord(int selectedRow) {
+        DefaultTableModel model = (DefaultTableModel) ViewStoredMedicine.jTable1.getModel();
+        Object[] rowData = getRowDataFromTableModel(model, selectedRow);
+        // Perform update operation in the database using rowData
+        System.out.println("Update clicked for row: " + selectedRow);
+    }
+
+    private void deleteRecord(int selectedRow) {
+        DefaultTableModel model = (DefaultTableModel) ViewStoredMedicine.jTable1.getModel();
+        Object[] rowData = getRowDataFromTableModel(model, selectedRow);
+        // Perform delete operation in the database using rowData
+        System.out.println("Delete clicked for row: " + selectedRow);
+        model.removeRow(selectedRow);
+    }
+
+    private Object[] getRowDataFromTableModel(DefaultTableModel model, int row) {
+        Object[] rowData = new Object[model.getColumnCount()];
+        for (int i = 0; i < model.getColumnCount(); i++) {
+            rowData[i] = model.getValueAt(row, i);
+        }
+        return rowData;
+    }
 }
+
 
